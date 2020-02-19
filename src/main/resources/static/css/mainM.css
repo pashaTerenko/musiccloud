@@ -1,0 +1,287 @@
+#drop_zone {
+    border: 2px dashed #bbb;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    font: 20pt bold;
+    color: #bbb;
+}
+
+.thumb {
+    height: 75px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+img.thumbnail {
+    width: 40px;
+    height: 40px;
+}
+
+#addModal {
+    color: #1fa67b;
+}
+
+#addModal table {
+    position: relative;
+    margin: auto;
+}
+
+#addModal table input {
+    border-radius: 5px;
+    border: solid 1px #CCC;
+    margin: 10px;
+    padding: 3px 10px;
+    color: #000;
+}
+
+#addModal table input[type="button"] {
+    width: 94%;
+    background: #1fa67b;
+    color: #FFF;
+}
+
+#addModal table span {
+    float: left;
+    font-size: 12px;
+    color: #a0ff00;
+    padding-left: 23px;
+}
+
+@font-face {
+    font-family: "SSStandard";
+    src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/ss-standard.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ss-icon, .ss-icon.ss-standard {
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    white-space: nowrap;
+    font-feature-settings: "liga", "dlig";
+}
+
+.ss-icon, .ss-icon.ss-standard {
+    font-family: "SSStandard";
+}
+
+* {
+    box-sizing: border-box;
+}
+
+figure#audioplayer {
+    background: #8aa688;
+    overflow: hidden;
+    width: 120rem;
+    padding: .4rem;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 0;
+}
+
+figure#audioplayer audio {
+    width: 0;
+    height: 0;
+}
+
+figure#audioplayer figcaption {
+    width: 21.5rem;
+    font-size: 0;
+    margin: .45rem;
+
+    float: left;
+    border: 1px solid #555;
+}
+
+figure#audioplayer figcaption div {
+    background: #f6ffea;
+    color: #fff;
+    padding: .8rem;
+    font-family: Avenir, Helvetica, sans-serif;
+    text-transform: uppercase;
+    font-size: .8rem;
+    display: inline-block;
+}
+
+figure#audioplayer figcaption div span {
+    display: block;
+    font-size: 1.3rem;
+    text-indent: 1rem;
+}
+
+#trackName {
+    width: 7.55rem;
+    border-left: 1px solid #555;
+    font-size: 1.3rem;
+}
+
+div#time {
+    width: 7.55rem;
+    border-left: 1px solid #555;
+    font-size: 1.3rem;
+}
+
+input#volumeSlider {
+    -webkit-appearance: slider-horizontal;
+    right: 0px;
+}
+
+figure#audioplayer button {
+    width: 3rem;
+    height: 3rem;
+
+    color: #ffc778;
+    border: none;
+}
+
+#playback {
+    clear: both;
+}
+
+div#fader {
+    display: inline-block;
+}
+
+div#time {
+    width: 7.55rem;
+    border-left: 1px solid #555;
+}
+#playback progress {
+    margin-left: 1rem;
+    width: 80em;
+    height: 12px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #888;
+    border: none;
+    color: hsl(44, 100%, 44%);
+}
+
+progress::-webkit-progress-value {
+    background: hsl(44, 100%, 44%);
+}
+
+progress::-moz-progress-bar {
+    background-color: hsl(44, 100%, 44%);
+}
+
+@media screen and (max-width: 500px) {
+    div#time {
+        display: block !important;
+        border-top: 1px solid #555;
+        width: 100%;
+    }
+
+    figure#audioplayer {
+        width: 100%;
+        padding: .2rem;
+    }
+
+    figure#audioplayer figcaption div {
+        padding: .4rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    figure#audioplayer figcaption {
+        width: 16rem;
+    }
+
+    #playback progress {
+        width: 100px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    figure#audioplayer figcaption {
+        width: 10rem;
+    }
+}
+
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+#dvTable {
+    margin-left: 20px;
+    height: max-content
+}
+
+#dvTablePL {
+    margin-right: 20px;
+    height: max-content
+}
+
+#col {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+.column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+    display: block;
+}
