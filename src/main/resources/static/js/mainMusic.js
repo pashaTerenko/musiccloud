@@ -6,7 +6,7 @@ var ALLPageSize = 0;
 function GenerateTable(data) {
 
     var customers = new Array();
-    customers.push(["Name", "Play", "time"]);
+    customers.push(["Name", "Action", "time"]);
 
     for (var i = 0; i < data.length; i++) {
         customers.push([data[i].name, data[i].uuid, data[i].aLong]);
@@ -37,7 +37,7 @@ function GenerateTable(data) {
                 cell.innerHTML = customers[i][j];
             } else {
 
-                cell.innerHTML = '<input onclick="playB(this.id)" type="button" id="' + customers[i][1] + ' " class="fas fa-play" /> ' + '<input onclick="addTopl(this.id)" type="button" id="' + customers[i][1] + ' " value="add to playlist" />';
+                cell.innerHTML = '<i onclick="playB(this.id)" type="button"  id="' + customers[i][1] + ' " class="fas fa-play fa-lg" ></i> ' + '<i onclick="addTopl(this.id)"class="fas fa-plus fa-lg" type="button" id="' + customers[i][1] + ' " value="add to playlist" ></i>';
 
 
             }
@@ -62,7 +62,7 @@ function GenerateTablePL(data) {
 
     //Build an array containing Customer records.
     var customers = new Array();
-    customers.push(["Name", "Play", "time"]);
+    customers.push(["Name", "Action", "time"]);
 
     for (var i = PLPageId * PAGE - PAGE; i < (PLPageId * PAGE >= data.length ? data.length : PAGE * PLPageId); i++) {
         customers.push([data[i].name, data[i].uuid, data[i].aLong]);
@@ -79,7 +79,9 @@ function GenerateTablePL(data) {
     //Add the header row.
     var row = table.insertRow(-1);
     for (var i = 0; i < columnCount; i++) {
+
         var headerCell = document.createElement("TH");
+
         headerCell.innerHTML = customers[0][i];
         row.appendChild(headerCell);
     }
@@ -93,7 +95,7 @@ function GenerateTablePL(data) {
                 cell.innerHTML = customers[i][j];
             } else {
 
-                cell.innerHTML = '<input onclick="playB(this.id)" type="button" id="' + customers[i][1] + ' " class="fas fa-play" />';
+                cell.innerHTML = '<i onclick="playB(this.id)" type="button"  id="' + customers[i][1] + ' " class="fas fa-play fa-lg" ></i> ' + '<i onclick="delFrompl(this.id)" class="fas fa-minus fa-lg" type="button" id="' + customers[i][1] + ' " value="add to playlist" ></i>';
 
             }
 
@@ -199,7 +201,7 @@ function loadPagesC() {
         for (i = 1; i <= pageCount; i++) {
             $('#pagesC').append(
                 $('<li>').attr('class', 'page-item').append(
-                    $('<a>').attr('class', 'page-link').attr('id', i).attr('href', '#')
+                    $('<a>').attr('class', 'page-link').attr('id', i)
                         .append(i))
             );
         }
@@ -208,7 +210,7 @@ function loadPagesC() {
 
     $("#pagesC").prop("click", ".page-link", null).off("click");
     $("#pagesC").on("click", ".page-link", function (event) {
-        if (AllPageId != event.target.id) {
+        if (PLPageId != event.target.id) {
             PLPageId = event.target.id;
             uploadPLTable(true);
         }
@@ -227,7 +229,7 @@ function loadPagesB() {
             for (i = 1; i <= pageCount; i++) {
                 $('#pagesB').append(
                     $('<li>').attr('class', 'page-item').append(
-                        $('<a>').attr('class', 'page-link').attr('id', i).attr('href', '#')
+                        $('<a>').attr('class', 'page-link').attr('id', i)
                             .append(i))
                 );
             }
@@ -354,6 +356,21 @@ function addTopl(id) {
     });
 
 
+}
+
+function delFrompl(id) {
+    $.post("/delsound?plUUID=" + selectPL + "&soundUUID=" + id, function (xhr, status, error) {
+        var jsonError = jQuery.parseJSON(xhr.responseText);
+        if (jsonError.code != 200) {
+            $("#messageSpan").text(jsonError.error);
+
+        } else {
+            $("#messageSpan").text("delete successfully");
+
+        }
+
+
+    });
 }
 $(document).ready(function (e) {
     PlaylistAdd();
