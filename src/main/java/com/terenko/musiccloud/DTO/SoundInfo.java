@@ -14,7 +14,8 @@ public class SoundInfo {
             int mili = (int) (s.getTime() / 1000);
             int sec = (mili / 1000) % 60;
             int min = (mili / 1000) / 60;
-            this.aLong =min+":"+sec;
+
+            this.aLong = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
         } catch (NullPointerException e) {
             this.aLong="0";
         }

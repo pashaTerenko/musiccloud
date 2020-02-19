@@ -1,6 +1,10 @@
 var audioTrack = document.getElementById("audiotrack");
+var PLPageId = 1;
+var PLPageSize = 0;
+var AllPageId = 0;
+var ALLPageSize = 0;
 function GenerateTable(data) {
-    //Build an array containing Customer records.
+
     var customers = new Array();
     customers.push(["Name", "Play", "time"]);
 
@@ -52,7 +56,7 @@ function GenerateTable(data) {
      }*/
 }
 
-var selectPL;
+var selectPL = null;
 var PAGE = 10;
 function GenerateTablePL(data) {
 
@@ -109,9 +113,10 @@ function GenerateTablePL(data) {
 function playB(id) {
     document.getElementById("audiotrack").setAttribute("src", "/get?uuid=" + id);
 
-    $.get("/getName?uuid=" + id, function (data) {
+    $.get("/getInfo?uuid=" + id, function (data) {
         console.log(data);
-        document.getElementById("trackName").setAttribute("value", data)
+        document.getElementById("trackName").innerText = data.name;
+        document.getElementById("Totaltime").innerText = data.aLong;
         setText(playButton, "Pause");
         audioTrack.play();
 
@@ -173,30 +178,11 @@ function handleDragOver(evt) {
 var dropZone = document.getElementById('drop_zone');
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', handleFileSelect, false);
-var lastDataA = 0;
-var lastDataB = 0;
+
 
 function monitor() {
-    $.getJSON('/count?l=1', function (dataP) {
-        if (dataP.count != lastDataA) {
-            lastDataA = dataP.count;
-            $.getJSON('/all?page=' + AllPageId, function (data) {
-                GenerateTable(data);
-            });
-        }
-    });
-    $.getJSON('/count?uuid=' + selectPL, function (dataP) {
-        if (dataP.count != lastDataB) {
-            lastDataB = dataP.count;
-            if (selectPL != null) {
-                $.getJSON('/getplaylistbyuuid?uuid=' + selectPL, function (data) {
-                    console.log(data);
-
-                    GenerateTablePL(data.soundList);
-                });
-            }
-        }
-    });
+    uploadAllTable(false);
+    uploadPLTable(false);
     setTimeout(arguments.callee, 1000);
 }
 
@@ -220,15 +206,11 @@ function loadPagesC() {
         }
     });
 
-
+    $("#pagesC").prop("click", ".page-link", null).off("click");
     $("#pagesC").on("click", ".page-link", function (event) {
-        PLPageId = event.target.id;
-        if (selectPL != null) {
-            $.getJSON('/getplaylistbyuuid?uuid=' + selectPL, function (data) {
-                console.log(data);
-
-                GenerateTablePL(data.soundList);
-            });
+        if (AllPageId != event.target.id) {
+            PLPageId = event.target.id;
+            uploadPLTable(true);
         }
     });
 }
@@ -252,21 +234,16 @@ function loadPagesB() {
         }
 
 
-
+    $("#pagesB").prop("click", ".page-link", null).off("click");
     $("#pagesB").on("click", ".page-link", function (event) {
-
-        AllPageId = event.target.id - 1;
-        $.getJSON('/all?page=' + AllPageId, function (data) {
-            GenerateTable(data);
-        });
-
+        if (AllPageId != event.target.id - 1) {
+            AllPageId = event.target.id - 1;
+            uploadAllTable(true);
+        }
     });
 }
 
-var PLPageId = 1;
-var PLPageSize = 0
-var AllPageId = 0;
-var ALLPageSize = 0;
+
 function PlaylistAdd() {
     $("#playlistNameSumbit").click(function () {
         var val = $("#playlistNameInput").val();
@@ -290,7 +267,49 @@ function PLDelete() {
     }
 }
 
+var lastDataA = 0;
+var lastDataB = 0;
 
+function uploadAllTable(isPageRequest) {
+    if (!isPageRequest) {
+        $.getJSON('/count?l=1', function (dataP) {
+            if (dataP.count != lastDataA) {
+                lastDataA = dataP.count;
+                $.getJSON('/all?page=' + AllPageId, function (data) {
+                    GenerateTable(data);
+                });
+            }
+        });
+    } else {
+        $.getJSON('/all?page=' + AllPageId, function (data) {
+            GenerateTable(data);
+        });
+    }
+}
+
+function uploadPLTable(isPageRequest) {
+
+    if (selectPL != null)
+        if (!isPageRequest) {
+            $.getJSON('/count?uuid=' + selectPL, function (dataP) {
+                if (dataP.count != lastDataB) {
+                    lastDataB = dataP.count;
+                    $.getJSON('/getplaylistbyuuid?uuid=' + selectPL, function (data) {
+                        console.log(data);
+
+                        GenerateTablePL(data.soundList);
+                    });
+
+                }
+            });
+        } else {
+            $.getJSON('/getplaylistbyuuid?uuid=' + selectPL, function (data) {
+                console.log(data);
+
+                GenerateTablePL(data.soundList);
+            });
+        }
+}
 function dropdownPL() {
     var dropdown = document.getElementById("PL-select");
     dropdown.options.length = 0;
@@ -342,7 +361,7 @@ $(document).ready(function (e) {
     dropdownPL();
 
 
-})
+});
 
 function tooglePlayer() {
     var x = document.getElementById("playerdiv");

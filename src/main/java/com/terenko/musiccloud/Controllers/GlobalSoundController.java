@@ -58,10 +58,11 @@ public class GlobalSoundController {
         }
         return null;
     }
-    @GetMapping("getName")
-    public  String getSoundName(@RequestParam String uuid){
+
+    @GetMapping("getInfo")
+    public SoundInfo getSoundInfo(@RequestParam String uuid) {
         Sound s =sr.getSoundByUUID(uuid);
-        return s.getName();
+        return new SoundInfo(s);
     }
 
     private long getPageCount(List<?> list) throws  NullPointerException{
