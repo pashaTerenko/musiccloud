@@ -100,6 +100,7 @@
 
                     </tr>
                     <tr>
+                        <div class="loader" id="musicloadspan" style="display: none"></div>
                         <td><span id="loadMessageSpan"></span></td>
                     </tr>
                     </tbody>
@@ -170,13 +171,16 @@
 <figure id="audioplayer" itemprop="track" itemscope itemtype="http://schema.org/MusicRecording">
     <h1 id="trackName"></h1>
 
-    <div id="time"><span id="playbacktime">00:00</span>
-        <span id="Totaltime">00:00</span>
+    <div id="time"><span id="playbacktime" style="cursor: pointer">00:00</span>
+        <span id="Totaltime" style="cursor: pointer">00:00</span>
     </div>
     </figcaption>
+
     <meta itemprop="duration" content="PT2M29S">
     <div id="fader"></div>
+    <i class="fas fa-eye-slash" id="hidePL" style="color: #ffffff;cursor: pointer" onclick="tooglePlayer()"></i>
     <div id="playback"></div>
+
     <audio controls src="" id="audiotrack" preload="auto"
            itemprop="audio"></audio>
 </figure>

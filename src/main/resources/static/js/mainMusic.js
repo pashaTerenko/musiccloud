@@ -6,7 +6,7 @@ var ALLPageSize = 0;
 function GenerateTable(data) {
 
     var customers = new Array();
-    customers.push(["Name", "Action", "time"]);
+    customers.push(["Name", "Action", "Time"]);
 
     for (var i = 0; i < data.length; i++) {
         customers.push([data[i].name, data[i].uuid, data[i].aLong]);
@@ -37,7 +37,7 @@ function GenerateTable(data) {
                 cell.innerHTML = customers[i][j];
             } else {
 
-                cell.innerHTML = '<i onclick="playB(this.id)" type="button"  id="' + customers[i][1] + ' " class="fas fa-play fa-lg" ></i> ' + '<i onclick="addTopl(this.id)"class="fas fa-plus fa-lg" type="button" id="' + customers[i][1] + ' " value="add to playlist" ></i>';
+                cell.innerHTML = '<i  type="button"  id="' + i + ' " class="fas fa-play fa-lg" value="1" ></i> ' + '<i onclick="addTopl(this.id)"class="fas fa-plus fa-lg" type="button" id="' + customers[i][1] + ' " value="add to playlist" ></i>';
 
 
             }
@@ -51,18 +51,22 @@ function GenerateTable(data) {
     dvTable.innerHTML = "";
     dvTable.appendChild(table);
     loadPagesB();
-    /* for (var i = 1; i < customers.length; i++) {
-         document.getElementById(customers[i][2]).checked = checkedList.get(customers[i][2]);
-     }*/
+    $("#dvTable").prop("click", ".fas.fa-play.fa-lg", null).off("click");
+    $('#dvTable').on("click", ".fas.fa-play.fa-lg", function (event) {
+        var i = event.target.id - 1 > data.length ? 0 : event.target.id - 1;
+        playB(data, i);
+
+    });
+
 }
 
 var selectPL = null;
-var PAGE = 10;
+var PAGE = 15;
 function GenerateTablePL(data) {
 
     //Build an array containing Customer records.
     var customers = new Array();
-    customers.push(["Name", "Action", "time"]);
+    customers.push(["Name", "Action", "Time"]);
 
     for (var i = PLPageId * PAGE - PAGE; i < (PLPageId * PAGE >= data.length ? data.length : PAGE * PLPageId); i++) {
         customers.push([data[i].name, data[i].uuid, data[i].aLong]);
@@ -95,7 +99,7 @@ function GenerateTablePL(data) {
                 cell.innerHTML = customers[i][j];
             } else {
 
-                cell.innerHTML = '<i onclick="playB(this.id)" type="button"  id="' + customers[i][1] + ' " class="fas fa-play fa-lg" ></i> ' + '<i onclick="delFrompl(this.id)" class="fas fa-minus fa-lg" type="button" id="' + customers[i][1] + ' " value="add to playlist" ></i>';
+                cell.innerHTML = '<i  type="button"  id="' + i + ' " class="fas fa-play fa-lg" ></i> ' + '<i onclick="delFrompl(this.id)" class="fas fa-minus fa-lg" type="button" id="' + customers[i][1] + ' " value="add to playlist" ></i>';
 
             }
 
@@ -107,38 +111,19 @@ function GenerateTablePL(data) {
 
     dvTable.innerHTML = "";
     dvTable.appendChild(table);
+
     loadPagesC();
-    /* for (var i = 1; i < customers.length; i++) {
-         document.getElementById(customers[i][2]).checked = checkedList.get(customers[i][2]);
-     }*/
-}
-function playB(id) {
-    document.getElementById("audiotrack").setAttribute("src", "/get?uuid=" + id);
-
-    $.get("/getInfo?uuid=" + id, function (data) {
-        console.log(data);
-        document.getElementById("trackName").innerText = data.name;
-        document.getElementById("Totaltime").innerText = data.aLong;
-        setText(playButton, "Pause");
-        audioTrack.play();
-
+    $("#dvTablePL").prop("click", ".fas.fa-play.fa-lg", null).off("click");
+    $('#dvTablePL').on("click", ".fas.fa-play.fa-lg", function (event) {
+        var i = event.target.id - 1 > data.length ? 0 : event.target.id - 1;
+        playB(data, i);
 
     });
-
-
 }
 
-function player() {
-    if (audioTrack.paused) {
-        setText(this, "Pause");
-        audioTrack.play();
-    } else {
-        setText(this, "Play");
-        audioTrack.pause();
-    }
-}
 function sendSound(files) {
-
+    var x = document.getElementById("musicloadspan");
+    x.style.display = "block";
     var fileList = files;
     var fileReader = new FileReader();
     if (fileReader && fileList && fileList.length) {
@@ -153,6 +138,7 @@ function sendSound(files) {
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(data);
+            x.style.display = "none";
             $("#loadMessageSpan").text("file upload")
 
         };
@@ -192,8 +178,8 @@ function loadPagesC() {
 
 
     $.getJSON('/count?uuid=' + selectPL, function (data) {
-        var pageCount = (data.count / data.pageSize) +
-            (data.count % data.pageSize > 0 ? 1 : 0);
+        var pageCount = (data.count / PAGE) +
+            (data.count % PAGE > 0 ? 1 : 0);
         var i;
         if (pageCount != PLPageSize) {
             PLPageSize = pageCount;
@@ -220,8 +206,8 @@ function loadPagesC() {
 function loadPagesB() {
 
 
-    var pageCount = (lastDataA / 6) +
-        (lastDataA % 6 > 0 ? 1 : 0);
+    var pageCount = (lastDataA / PAGE) +
+        (lastDataA % PAGE > 0 ? 1 : 0);
         var i;
         if (pageCount != ALLPageSize) {
             ALLPageSize = pageCount;
@@ -248,12 +234,14 @@ function loadPagesB() {
 
 function PlaylistAdd() {
     $("#playlistNameSumbit").click(function () {
+
         var val = $("#playlistNameInput").val();
         if (val != "") {
             console.log(val);
             $.post("/addpl?plName=" + val, function () {
                 dropdownPL();
             });
+
             $("#PLdateSpan").text("playlist have added");
 
         }
@@ -277,13 +265,13 @@ function uploadAllTable(isPageRequest) {
         $.getJSON('/count?l=1', function (dataP) {
             if (dataP.count != lastDataA) {
                 lastDataA = dataP.count;
-                $.getJSON('/all?page=' + AllPageId, function (data) {
+                $.getJSON('/all?page=' + AllPageId + '&pageSize=' + PAGE, function (data) {
                     GenerateTable(data);
                 });
             }
         });
     } else {
-        $.getJSON('/all?page=' + AllPageId, function (data) {
+        $.getJSON('/all?page=' + AllPageId + '&pageSize=' + PAGE, function (data) {
             GenerateTable(data);
         });
     }

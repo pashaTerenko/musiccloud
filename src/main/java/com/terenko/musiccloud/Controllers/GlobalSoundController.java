@@ -22,13 +22,13 @@ public class GlobalSoundController {
     @Autowired
     FileService fs;
     private static final int PAGE_SIZE = 5;
-    final int  PAGE=10;
+    final int PAGE = 15;
     @Autowired
     Service sr;
     @GetMapping("all")
-    public List<SoundInfo> getAllSound(@RequestParam(required = false, defaultValue = "0")int page){
+    public List<SoundInfo> getAllSound(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "15") int pageSize) {
 
-        return sr.getAllSounds( PageRequest.of(page, PAGE, Sort.Direction.DESC, "id"));
+        return sr.getAllSounds(PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
 
     }
     @GetMapping("getbyuuid")

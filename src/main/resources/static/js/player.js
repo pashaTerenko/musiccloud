@@ -1,4 +1,29 @@
+var Playlist;
+var currentPos = 0;
 
+function playB(data, id) {
+    document.getElementById("audiotrack").setAttribute("src", "/get?uuid=" + data[id].uuid);
+
+
+    document.getElementById("trackName").innerText = data[id].name;
+    document.getElementById("Totaltime").innerText = data[id].aLong;
+    setText(playButton, "Pause");
+    audioTrack.play();
+    Playlist = data;
+    currentPos = id;
+
+
+}
+
+function player() {
+    if (audioTrack.paused) {
+        setText(this, "Pause");
+        audioTrack.play();
+    } else {
+        setText(this, "Play");
+        audioTrack.pause();
+    }
+}
 function setText(el, text) {
     el.innerHTML = text;
 }
@@ -6,6 +31,7 @@ function setText(el, text) {
 function finish() {
     audioTrack.currentTime = 0;
     setText(playButton, "Play");
+    playB(Playlist, currentPos + 1 > Playlist.length ? 0 : currentPos + 1);
 }
 
 function updatePlayhead() {

@@ -72,7 +72,6 @@ img.thumbnail {
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
-    white-space: nowrap;
     font-feature-settings: "liga", "dlig";
 }
 
@@ -166,7 +165,7 @@ div#time {
     border-left: 1px solid #555;
 }
 #playback progress {
-    margin-left: 1rem;
+
     width: 100%;
     height: 12px;
     -webkit-appearance: none;
@@ -273,15 +272,18 @@ progress::-moz-progress-bar {
 }
 
 @media screen and (max-width: 420px) {
+    .table table-dark {
+        width: 100%;
+    }
     #dvTable {
         width: 100%;
-        height: 100%
+        height: 100%;
 
     }
 
     #dvTablePL {
         width: 100%;
-        height: 100%
+        height: 100%;
     }
 }
 #col {
@@ -342,4 +344,26 @@ progress::-moz-progress-bar {
 
 #trackName {
     display: inline;
+}
+
+#hidePL {
+    left: 0;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
