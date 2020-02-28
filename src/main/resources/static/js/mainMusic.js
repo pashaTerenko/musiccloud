@@ -122,6 +122,7 @@ function GenerateTablePL(data) {
 }
 
 function sendSound(files) {
+    $("#loadMessageSpan").text("");
     var x = document.getElementById("musicloadspan");
     x.style.display = "block";
     var fileList = files;

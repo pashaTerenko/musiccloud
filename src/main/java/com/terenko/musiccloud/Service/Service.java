@@ -121,7 +121,7 @@ public int getCountALL(){
         } catch (AlreadyExistExeption alreadyExistExeption) {
 
         }
-        log.info("sound "+s.getName()+"have added");
+        log.info("sound "+s.getName()+" have added");
     }
 
     @Override

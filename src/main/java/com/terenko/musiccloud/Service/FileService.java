@@ -10,7 +10,7 @@ public class FileService implements FileServiceInterface {
     private static Logger log = Logger.getLogger(FileService.class.getName());
     private static final int BUFFER_SIZE = 4096;
 
-    final static String PATH = "D:\\MusicCloudCatalog\\";
+    final static String PATH = "E:\\MusicCloudCatalog\\";
 
     @Override
     public String addToCatalog(byte[] data, String name) {
