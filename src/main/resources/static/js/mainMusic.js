@@ -262,17 +262,21 @@ var lastDataA = 0;
 var lastDataB = 0;
 
 function uploadAllTable(isPageRequest) {
+    var search="";
+  var val= document.getElementById("searchInput").value;
+    if(val!="")
+        search=val;
     if (!isPageRequest) {
         $.getJSON('/count?l=1', function (dataP) {
             if (dataP.count != lastDataA) {
                 lastDataA = dataP.count;
-                $.getJSON('/all?page=' + AllPageId + '&pageSize=' + PAGE, function (data) {
+                $.getJSON('/all?page=' + AllPageId + '&pageSize=' + PAGE+"&search="+search, function (data) {
                     GenerateTable(data);
                 });
             }
         });
     } else {
-        $.getJSON('/all?page=' + AllPageId + '&pageSize=' + PAGE, function (data) {
+        $.getJSON('/all?page=' + AllPageId + '&pageSize=' + PAGE+"&search="+search, function (data) {
             GenerateTable(data);
         });
     }

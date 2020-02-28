@@ -44,7 +44,7 @@ public class Service implements Serviceinterface {
         for (Sound s : sr.findAll(page)) {
             list.add(new SoundInfo(s));
         }
-        log.info(list.toString());
+
         return list;
     }
     @Override
@@ -138,6 +138,16 @@ public int getCountALL(){
         pl.deleteSound(getSoundByUUID(uuid));
         pr.save(pl);
     }
+
+    @Override
+    public List<SoundInfo> getBySearch(String pattern, Pageable page) {
+        List<SoundInfo> list = new ArrayList<>();
+        for (Sound s : sr.findByNameContainingIgnoreCase(pattern,page)) {
+            list.add(new SoundInfo(s));
+        }
+        log.info("search result: "+list.toString());
+        return list;
+    }
 /*    @Transactional
     public void test(){
         try {
@@ -153,4 +163,5 @@ public int getCountALL(){
         }
 
     }*/
+
 }

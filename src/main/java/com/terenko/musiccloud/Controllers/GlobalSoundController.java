@@ -26,10 +26,10 @@ public class GlobalSoundController {
     @Autowired
     Service sr;
     @GetMapping("all")
-    public List<SoundInfo> getAllSound(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "15") int pageSize) {
-
+    public List<SoundInfo> getAllSound(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "15") int pageSize,@RequestParam(required = false ,defaultValue = "")String search) {
+        if(search.equals(""))
         return sr.getAllSounds(PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
-
+        else return  sr.getBySearch(search,PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
     }
     @GetMapping("getbyuuid")
     public List<SoundInfo> getSoundbyUUID(@RequestParam(required = false, defaultValue = "0")int page,@RequestBody List<String> uuid){

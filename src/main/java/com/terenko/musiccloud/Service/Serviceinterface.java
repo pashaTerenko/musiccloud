@@ -37,5 +37,6 @@ public interface Serviceinterface {
     void addSoundToPlaylist(Sound s, Playlist pl)throws AlreadyExistExeption;
 
     void deleteSoundFromPlaylist(Playlist pl, String uuid);
+    List<SoundInfo> getBySearch(String pattern,Pageable page);
 
 }
